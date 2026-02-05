@@ -18,35 +18,13 @@ class MainScene extends Phaser.Scene {
     this.score = 0;
   }
 
-  preload() {
-    this.load.image("water", "assets/tiles/water.png");
-    this.load.image("grass", "assets/tiles/grass_unmowed.png");
-    this.load.image("grassMowed", "assets/tiles/grass_mowed.png");
-    this.load.image("mower", "assets/sprites/mower.png");
-    this.load.image("tree", "assets/obstacles/tree.png");
-    this.load.image("flower", "assets/obstacles/flower.png");
-    this.load.image("rock", "assets/obstacles/rock.png");
-    this.load.image("gnome", "assets/obstacles/gnome.png");
-
-    this.load.audio("bgm", "assets/music/music.mp3");
-    this.load.audio("crash", "assets/sfx/crash.mp3");
-    this.load.audio("waterHit", "assets/sfx/water.mp3");
-    this.load.audio("mower", "assets/sfx/mower.mp3");
-    this.load.audio("win", "assets/sfx/win.mp3");
-  }
-
   create() {
+    console.log("MainScene create started");
     this.hasWon = false;
 
     this.waterGroup = this.physics.add.staticGroup();
     this.obstacles = this.physics.add.staticGroup();
     this.startTime = this.time.now;
-
-    // 🎵 Background music
-    this.bgm = this.sound.add("bgm", {
-      loop: true,
-      volume: 0.4,
-    });
 
     // 🚜 Mower engine (looped, controlled manually)
     this.mowerSound = this.sound.add("mower", {
@@ -60,9 +38,6 @@ class MainScene extends Phaser.Scene {
 
     // 🏆 Win SFX
     this.winSound = this.sound.add("win", { volume: 0.8 });
-
-    // autoplay bgm (browser-safe after user interaction)
-    this.bgm.play();
 
     this.buildGrid();
     this.loadCustomLevel();
@@ -347,7 +322,6 @@ class MainScene extends Phaser.Scene {
   onWin() {
     // 🔇 stop looping sounds
     if (this.mowerSound.isPlaying) this.mowerSound.stop();
-    if (this.bgm.isPlaying) this.bgm.stop();
 
     this.winSound.play();
 
